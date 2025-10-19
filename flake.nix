@@ -15,7 +15,10 @@
       ...
     }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ treefmt-nix.flakeModule ];
+      imports = [
+        treefmt-nix.flakeModule
+        ./modules/flake-module.nix
+      ];
 
       systems = [ "x86_64-linux" ];
 
@@ -23,12 +26,6 @@
         treefmt = {
           projectRootFile = "flake.nix";
           programs.nixfmt.enable = true;
-        };
-      };
-
-      flake = {
-        nixosModules = {
-          virtualisation = ./modules/virtualisation.nix;
         };
       };
     };
