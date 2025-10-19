@@ -18,6 +18,7 @@
       imports = [
         treefmt-nix.flakeModule
         ./modules/flake-module.nix
+        ./scripts.nix
       ];
 
       systems = [ "x86_64-linux" ];
