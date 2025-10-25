@@ -7,16 +7,17 @@
 
 {
   flake = {
-    nixosModules = {
-      default =
-        let
-          monarchModules = lib.filterAttrs (n: _: n != "default") self.nixosModules;
-        in
-        {
+    nixosModules =
+      let
+        monarchModules = lib.filterAttrs (n: _: n != "default") self.nixosModules;
+        default = {
           _file = "${toString moduleLocation}#nixosModules.default";
           imports = lib.mapAttrsToList (_: v: v) monarchModules;
         };
-      virtualisation = ./virtualisation.nix;
-    };
+      in
+      {
+        inherit default;
+        virtualisation = ./virtualisation.nix;
+      };
   };
 }
