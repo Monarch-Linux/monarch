@@ -3,10 +3,8 @@
   config,
   lib,
   pkgs,
-  inputs,
-  self,
   ...
-}:
+}@moduleArgs:
 
 # This module provides a system specific inputs' and self' module argument.
 # This permits users to use packages from inputs or self in a system agnostic manner,
@@ -26,12 +24,12 @@ in
 
   config = {
     _module = lib.mkMerge [
-      ({ args = lib.mkIf cfg.self'.enable { self' = perInput system self; }; })
+      ({ args = lib.mkIf cfg.self'.enable { self' = perInput system moduleArgs.self; }; })
       ({
         args = lib.mkIf cfg.inputs'.enable {
           inputs' = lib.mapAttrs (
             inputName: input: if input._type or null == "flake" then perInput system input else null
-          ) inputs;
+          ) moduleArgs.inputs;
         };
       })
     ];
