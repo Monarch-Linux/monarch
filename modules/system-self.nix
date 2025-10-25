@@ -1,5 +1,6 @@
 { flakeConfig, ... }:
 {
+  config,
   lib,
   pkgs,
   self,
@@ -14,7 +15,14 @@
 let
   inherit (pkgs) system;
   inherit (flakeConfig) perInput;
+  cfg = config.monarch.modules.self';
 in
 {
-  _module.args.self' = perInput system self;
+  options.monarch.modules.self' = {
+    enable = lib.mkEnableOption "system specific self module argument";
+  };
+
+  config = lib.mkIf cfg.enable {
+    _module.args.self' = perInput system self;
+  };
 }

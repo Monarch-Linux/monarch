@@ -1,5 +1,6 @@
 { flakeConfig, ... }:
 {
+  config,
   lib,
   pkgs,
   inputs,
@@ -14,9 +15,16 @@
 let
   inherit (pkgs) system;
   inherit (flakeConfig) perInput;
+  cfg = config.monarch.modules.inputs';
 in
 {
-  _module.args.inputs' = lib.mapAttrs (
-    inputName: input: if input._type or null == "flake" then perInput system input else null
-  ) inputs;
+  options.monarch.modules.inputs' = {
+    enable = lib.mkEnableOption "system specific inputs module argument";
+  };
+
+  config = lib.mkIf cfg.enable {
+    _module.args.inputs' = lib.mapAttrs (
+      inputName: input: if input._type or null == "flake" then perInput system input else null
+    ) inputs;
+  };
 }
