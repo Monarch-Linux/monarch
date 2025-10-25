@@ -28,9 +28,7 @@
         edict = {
           type = "app";
           program = "${self'.packages.edict}/bin/edict";
-          meta.description = ''
-            Script for updating monarch flake input. Only intended to be used by contributors.
-          '';
+          meta.description = "Script for updating monarch flake input. Only intended to be used by contributors.";
         };
       };
     };
