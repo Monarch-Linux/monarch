@@ -1,10 +1,14 @@
 {
   self,
+  config,
   lib,
   moduleLocation,
   ...
 }:
 
+let
+  inherit (lib.modules) importApply;
+in
 {
   flake = {
     nixosModules =
@@ -17,6 +21,8 @@
       in
       {
         inherit default;
+        system-inputs = importApply ./system-inputs.nix { flakeConfig = config; };
+        system-self = importApply ./system-self.nix { flakeConfig = config; };
         virtualisation = ./virtualisation.nix;
       };
   };
