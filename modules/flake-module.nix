@@ -21,8 +21,7 @@ in
       in
       {
         inherit default;
-        system-inputs = importApply ./system-inputs.nix { flakeConfig = config; };
-        system-self = importApply ./system-self.nix { flakeConfig = config; };
+        system-inputs-self = importApply ./system-inputs-self.nix { flakeConfig = config; };
         virtualisation = ./virtualisation.nix;
       };
   };
